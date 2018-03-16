@@ -5,6 +5,17 @@ const customers = require('./customer');
 
 const app = express();
 
+app.use("*", function(req, res, next) {
+    let api_key = req.header("api-key");
+    if(api_key == "chennumberone")
+        next();
+    else {
+        res.statusMessage = "Invalid Token";
+        res.status(400);
+        res.end()
+    }
+});
+
 const schema = buildSchema(`
     type Query {
         customer(id: Int!): Customer
